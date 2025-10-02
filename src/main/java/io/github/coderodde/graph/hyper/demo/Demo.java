@@ -16,39 +16,58 @@ import java.util.Random;
  */
 public final class Demo {
     
-    private static final int HYPER_NODES = 20_000;
-    private static final int HYPER_EDGES = 5_000;
+    private static final int HYPER_NODES = 1_000_000;
+    private static final int HYPER_EDGES = 400_000;
     private static final int MINIMUM_HYPER_EDGE_SIZE = 2;
     private static final int MAXIMUM_HYPER_EDGE_SIZE = 8;
+    private static final int MINIMUM_HYPER_EDGE_WEIGHT = 1;
     private static final int MAXIMUM_HYPER_EDGE_WEIGHT = 10;
     
     private static final Random RND = new Random(13L);
     
     public static void main(String[] args) {
-        long ta = System.nanoTime();
+        long ta = System.currentTimeMillis();
         
         List<HyperGraphNode<Integer, Integer, Integer>> hyperGraph = 
                 getRandomHyperGraph();
 
-        long tb = System.nanoTime();
+        long tb = System.currentTimeMillis();
         
         System.out.println(
                 "Constructed the demo hyper graph in " 
-                        + (tb - ta) / 1000
-                        + " microseconds.");
+                        + (tb - ta)
+                        + " milliseconds.");
         
         HyperGraphNode<Integer, Integer, Integer> source = choose(hyperGraph);
         HyperGraphNode<Integer, Integer, Integer> target = choose(hyperGraph);
         
-        ta = System.nanoTime();
+        ta = System.currentTimeMillis();
+        
         HyperGraphPath<Integer, Integer, Integer> path =
                 HyperGraphPathfinder.find(source, 
                                           target,
                                           new IntegerWeightFunction());
-        tb = System.nanoTime();
+        tb = System.currentTimeMillis();
         
-        System.out.println(path);
-        System.out.println("Duration: " + (tb - ta) / 1000 + " microseconds.");
+        printPath(path);
+        
+        System.out.println("Duration: " + (tb - ta) + " milliseconds.");
+    }
+    
+    private static void printPath(HyperGraphPath<Integer, 
+                                                 Integer, 
+                                                 Integer> path) {
+        for (int i = 0; i < path.getPathHyperEdges().size(); ++i) {
+            System.out.println(path.getPathHyperNodes().get(i));
+            System.out.println(path.getPathHyperEdges().get(i));
+        }
+        
+        System.out.println(
+                path.getPathHyperNodes()
+                    .get(path.getPathHyperNodes().size() - 1)
+                    .toString());
+        
+        System.out.println("Path weight = " + path.getWeight());
     }
     
     private static List<HyperGraphNode<Integer, 
@@ -95,7 +114,8 @@ public final class Demo {
     }
         
     private static int getRandomWeight() {
-        return RND.nextInt(MAXIMUM_HYPER_EDGE_WEIGHT + 1);
+        return MINIMUM_HYPER_EDGE_WEIGHT + 
+               RND.nextInt(MAXIMUM_HYPER_EDGE_WEIGHT + 1);
     }
         
     private static int getHyperEdgeSize() {

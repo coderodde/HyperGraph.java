@@ -81,8 +81,9 @@ public final class HyperGraphPath<I, J, W> {
             sb.append(edge.toString());
         }
         
+        sb.append(", ");
         sb.append(nodes.get(nodes.size() - 1).toString());
-        sb.append(": weight = ");
+        sb.append(": total weight = ");
         sb.append(weight);
         sb.append("]");
         return sb.toString();

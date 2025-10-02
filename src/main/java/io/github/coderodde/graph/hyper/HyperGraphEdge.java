@@ -43,6 +43,8 @@ public final class HyperGraphEdge<I, J, W> {
             sb.append(node.toString());
         }
         
+        sb.append(": weight = ");
+        sb.append(weight);
         sb.append("}");
         return sb.toString();
     }

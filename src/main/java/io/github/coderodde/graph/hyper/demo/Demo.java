@@ -25,21 +25,30 @@ public final class Demo {
     private static final Random RND = new Random(13L);
     
     public static void main(String[] args) {
+        long ta = System.nanoTime();
+        
         List<HyperGraphNode<Integer, Integer, Integer>> hyperGraph = 
                 getRandomHyperGraph();
+
+        long tb = System.nanoTime();
+        
+        System.out.println(
+                "Constructed the demo hyper graph in " 
+                        + (tb - ta) / 1000
+                        + " microseconds.");
         
         HyperGraphNode<Integer, Integer, Integer> source = choose(hyperGraph);
         HyperGraphNode<Integer, Integer, Integer> target = choose(hyperGraph);
         
-        long ta = System.nanoTime();
+        ta = System.nanoTime();
         HyperGraphPath<Integer, Integer, Integer> path =
                 HyperGraphPathfinder.find(source, 
                                           target,
                                           new IntegerWeightFunction());
-        long tb = System.nanoTime();
+        tb = System.nanoTime();
         
         System.out.println(path);
-        System.out.println("Duration: " + (tb - ta) + " milliseconds.");
+        System.out.println("Duration: " + (tb - ta) / 1000 + " microseconds.");
     }
     
     private static List<HyperGraphNode<Integer, 

@@ -33,6 +33,8 @@ public final class HyperGraphPathfinder {
                 new HashMap<>();
         
         open.add(new HeapNode(source, weights.zero(), weights));
+        distances.put(source, weights.zero());
+        parents.put(source, null);
         
         while (!open.isEmpty()) {
             HyperGraphNode<I, J, W> current = open.remove().node;
@@ -159,6 +161,7 @@ public final class HyperGraphPathfinder {
                  WeightFunction<W> weightFunction) {
             this.node = node;
             this.g = g;
+            this.weightFunction = weightFunction;
         }
 
         @Override

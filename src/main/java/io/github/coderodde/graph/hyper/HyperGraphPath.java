@@ -58,9 +58,33 @@ public final class HyperGraphPath<I, J, W> {
     
     @Override
     public String toString() {
+        if (isNonExistent()) {
+            return "[: weight = 0]";
+        }
+        
         StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        boolean first = true;
         
+        for (int i = 0; i < edges.size(); ++i) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(", ");
+            }
+            
+            HyperGraphNode<I, J, W> node = nodes.get(i);
+            HyperGraphEdge<I, J, W> edge = edges.get(i);
+            
+            sb.append(node.toString());
+            sb.append(", ");
+            sb.append(edge.toString());
+        }
         
+        sb.append(nodes.get(nodes.size() - 1).toString());
+        sb.append(": weight = ");
+        sb.append(weight);
+        sb.append("]");
         return sb.toString();
     }
     

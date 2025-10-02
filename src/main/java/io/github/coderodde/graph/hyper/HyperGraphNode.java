@@ -1,26 +1,35 @@
 package io.github.coderodde.graph.hyper;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  *
  * @param <I> the type of the identity object.
- * @param <W> the type of the weight function.
+ * @param <W> the type of the weights.
  * 
  * @author Rodion "rodde" Efremov
  * @version 1.0.0 (Sep 24, 2025)
  * @since 1.0.0 (Sep 24, 2025)
  */
-public final class HyperGraphNode<I, W extends WeightFunction<W>> {
+public final class HyperGraphNode<I, J, W> {
    
     private final I id;
-    private final Set<HyperGraphEdge<I, W>> edges = new HashSet<>();
+    protected final List<HyperGraphEdge<I, J, W>> edges = new ArrayList<>();
     
     public HyperGraphNode(I id) {
         this.id = Objects.requireNonNull(id);
+    }
+    
+    public I getId() {
+        return id;
+    }
+    
+    @Override
+    public String toString() {
+        return id.toString();
     }
     
     @Override
@@ -42,21 +51,11 @@ public final class HyperGraphNode<I, W extends WeightFunction<W>> {
             return false;
         }
         
-        HyperGraphNode<I, W> other = (HyperGraphNode<I, W>) obj;
+        HyperGraphNode<I, J, W> other = (HyperGraphNode<I, J, W>) obj;
         return id.equals(other.id);
     }
     
-    public void connectToEdge(HyperGraphEdge<I, W> edge) {
-        edges.add(Objects.requireNonNull(edge));
-    }
-    
-    public Set<HyperGraphEdge<I, W>> getEdges() {
-        return Collections.unmodifiableSet(edges);
-    }
-    
-    public void disconnectFromEdge(HyperGraphEdge<I, W> edge) {
-        Objects.requireNonNull(edge);
-        edge.edgeNodes.remove(this);
-        edges.remove(edge);
+    public List<HyperGraphEdge<I, J, W>> getIncidentHyperEdges() {
+        return Collections.unmodifiableList(edges);
     }
 }

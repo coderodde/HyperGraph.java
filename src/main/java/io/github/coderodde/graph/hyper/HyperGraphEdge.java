@@ -1,31 +1,55 @@
 package io.github.coderodde.graph.hyper;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  *
- * @param <I> the type of the identity object.
+ * @param <I> the type of the node identity object.
+ * @param <J> the type of the edge identity object.
  * @param <W> the type of the weights.
  * 
  * @author Rodion "rodde" Efremov
  * @version 1.0.0 (Sep 24, 2025)
  * @since 1.0.0 (Sep 24, 2025)
  */
-public final class HyperGraphEdge<I, W extends WeightFunction<W>> {
+public final class HyperGraphEdge<I, J, W> {
     
-    final Set<HyperGraphNode<I, W>> edgeNodes = new HashSet<>();
+    private final J id;
     private final W weight;
+    final List<HyperGraphNode<I, J, W>> edgeNodes = new ArrayList<>();
     
-    public HyperGraphEdge(W weight) {
+    public HyperGraphEdge(J id, W weight) {
+        this.id = Objects.requireNonNull(id);
         this.weight = Objects.requireNonNull(weight);
     }
     
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        
+        boolean first = true;
+        
+        for (HyperGraphNode<I, J, W> node : edgeNodes) {
+            if (first) {
+                first = false;
+            } else {
+                sb.append(", ");
+            }
+            
+            sb.append(node.toString());
+        }
+        
+        sb.append("}");
+        return sb.toString();
+    }
+    
+    @Override
     public int hashCode() {
-        return edgeNodes.hashCode();
+        return id.hashCode();
     }
     
     @Override
@@ -42,38 +66,43 @@ public final class HyperGraphEdge<I, W extends WeightFunction<W>> {
             return false;
         }
         
-        HyperGraphEdge<I, W> other = (HyperGraphEdge<I, W>) obj;
-        return edgeNodes.equals(other.edgeNodes) && weight.equals(other.weight);
+        HyperGraphEdge<I, J, W> other = (HyperGraphEdge<I, J, W>) obj;
+        return id.equals(other.id) && weight.equals(other.weight);
+    }
+    
+    public J getId() {
+        return id;
     }
     
     public W getWeight() {
         return weight;
     }
     
-    public void connectNode(HyperGraphNode<I, W> node) {
+    public void connectNode(HyperGraphNode<I, J, W> node) {
         Objects.requireNonNull(node);
         edgeNodes.add(node);
-        node.connectToEdge(this);
+        node.edges.add(this);
     }
     
-    public boolean containsNode(HyperGraphNode<I, W> node) {
+    public boolean containsNode(HyperGraphNode<I, J, W> node) {
         return edgeNodes.contains(node);
     }
     
-    public void deleteNode(HyperGraphNode<I, W> node) {
-        node.disconnectFromEdge(this);
+    public void disconnectNode(HyperGraphNode<I, J, W> node) {
+        Objects.requireNonNull(node);
         edgeNodes.remove(node);
+        node.edges.remove(this);
     }
     
     public void clear() {
-        for (HyperGraphNode<I, W> node : edgeNodes) {
-            node.disconnectFromEdge(this);
+        for (HyperGraphNode<I, J, W> node : edgeNodes) {
+            node.edges.remove(this);
         }
         
         edgeNodes.clear();
     }
     
-    public Set<HyperGraphNode<I, W>> getVertices() {
-        return Collections.unmodifiableSet(edgeNodes);
+    public List<HyperGraphNode<I, J, W>> getIncidentHyperNodes() {
+        return Collections.unmodifiableList(edgeNodes);
     }
 }

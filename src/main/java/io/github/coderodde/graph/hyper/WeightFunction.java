@@ -1,10 +1,13 @@
 package io.github.coderodde.graph.hyper;
 
 /**
- *
+ * This interface defines the API for the weight functions.
+ * 
  * @param <W> the type of the weight.
  * 
- * @author rodio
+ * @author Rodion "rodde" Efremov
+ * @version 1.0.0 (Oct 2, 2025)
+ * @since 1.0.0 (Oct 2, 2025)
  */
 public interface WeightFunction<W> {
    

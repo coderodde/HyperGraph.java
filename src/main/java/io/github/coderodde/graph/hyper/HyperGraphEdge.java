@@ -1,12 +1,13 @@
 package io.github.coderodde.graph.hyper;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
- *
+ * This class defines a hyperedge in a hypergraph.
+ * 
  * @param <I> the type of the node identity object.
  * @param <J> the type of the edge identity object.
  * @param <W> the type of the weights.
@@ -19,7 +20,7 @@ public final class HyperGraphEdge<I, J, W> {
     
     private final J id;
     private final W weight;
-    final List<HyperGraphNode<I, J, W>> edgeNodes = new ArrayList<>();
+    private final Set<HyperGraphNode<I, J, W>> edgeNodes = new HashSet<>();
     
     public HyperGraphEdge(J id, W weight) {
         this.id = Objects.requireNonNull(id);
@@ -104,7 +105,7 @@ public final class HyperGraphEdge<I, J, W> {
         edgeNodes.clear();
     }
     
-    public List<HyperGraphNode<I, J, W>> getIncidentHyperNodes() {
-        return Collections.unmodifiableList(edgeNodes);
+    public Set<HyperGraphNode<I, J, W>> getIncidentHyperNodes() {
+        return Collections.unmodifiableSet(edgeNodes);
     }
 }

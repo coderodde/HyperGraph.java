@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * This class implements a hyper graph path, which is a list of nodes and a list
- * of hyper edges.
+ * This class implements a hypergraph path, which is a list of nodes and a list
+ * of hyperedges.
  * 
  * @param <I> the identity object type.
  * @param <W> the weight type.
@@ -47,6 +47,10 @@ public final class HyperGraphPath<I, J, W> {
             this.edges = edges;
             
             W w = weightFunction.zero();
+            
+            for (HyperGraphNode<I, J, W> node : nodes) {
+                w = weightFunction.apply(w, node.getWeight());
+            }
             
             for (HyperGraphEdge<I, J, W> edge : edges) {
                 w = weightFunction.apply(w, edge.getWeight());

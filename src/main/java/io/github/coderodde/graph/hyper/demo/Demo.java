@@ -22,6 +22,8 @@ public final class Demo {
     private static final int MAXIMUM_HYPER_EDGE_SIZE = 8;
     private static final int MINIMUM_HYPER_EDGE_WEIGHT = 1;
     private static final int MAXIMUM_HYPER_EDGE_WEIGHT = 10;
+    private static final int MINIMUM_HYPER_NODE_WEIGHT = 0;
+    private static final int MAXIMUM_HYPER_NODE_WEIGHT = 5;
     
     private static final Random RND = new Random(13L);
     
@@ -89,7 +91,7 @@ public final class Demo {
                                                   Integer>> nodes) {
             
         for (int id = 0; id < HYPER_NODES; ++id) {
-            nodes.add(new HyperGraphNode<>(id));
+            nodes.add(new HyperGraphNode<>(id, getRandomNodeWeight()));
         }
     }
     
@@ -99,7 +101,7 @@ public final class Demo {
                                                   Integer>> nodes) {
             
         for (int i = 0; i < HYPER_EDGES; ++i) {
-            Integer weight = getRandomWeight();
+            Integer weight = getRandomEdgeWeight();
             
             HyperGraphEdge<Integer, Integer, Integer> edge =
                     new HyperGraphEdge<>(i, weight);
@@ -113,9 +115,14 @@ public final class Demo {
         }
     }
         
-    private static int getRandomWeight() {
+    private static int getRandomEdgeWeight() {
         return MINIMUM_HYPER_EDGE_WEIGHT + 
                RND.nextInt(MAXIMUM_HYPER_EDGE_WEIGHT + 1);
+    }
+        
+    private static int getRandomNodeWeight() {
+        return MINIMUM_HYPER_NODE_WEIGHT + 
+               RND.nextInt(MAXIMUM_HYPER_NODE_WEIGHT + 1);
     }
         
     private static int getHyperEdgeSize() {

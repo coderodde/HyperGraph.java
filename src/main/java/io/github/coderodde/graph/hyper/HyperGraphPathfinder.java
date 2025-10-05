@@ -11,8 +11,8 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * This class implements a point-to-point Dijkstra's algorithm over a hyper 
- * graph.
+ * This class implements a point-to-point Dijkstra's algorithm over a 
+ * hypergraph.
  * 
  * @author Rodion "rodde" Efremov
  * @version 1.0.0 (Oct 1, 2025)
@@ -132,7 +132,7 @@ public final class HyperGraphPathfinder {
         HyperGraphEdge<I, J, W> smallestHyperEdge = null;
         
         for (HyperGraphEdge<I, J, W> relay : node1.edges) {
-            if (relay.edgeNodes.contains(node2)) {
+            if (relay.getIncidentHyperNodes().contains(node2)) {
                 W currentWeight = relay.getWeight();
                 
                 if (weightFunction.compare(smallestWeight, currentWeight) > 0) {

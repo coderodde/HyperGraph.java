@@ -81,7 +81,8 @@ public final class HyperGraphPathfinder {
             }
         }
         
-        throw new IllegalStateException("The hyper graph is disconnected");
+        // Return empty path:
+        return new HyperGraphPath<>(weights);
     }
          
     private static <I, J, W> 

@@ -66,7 +66,7 @@ public final class Demo {
         
         System.out.println(
                 path.getPathHyperNodes()
-                    .get(path.getPathHyperNodes().size() - 1)
+                    .getLast()
                     .toString());
         
         System.out.println("Path weight = " + path.getWeight());

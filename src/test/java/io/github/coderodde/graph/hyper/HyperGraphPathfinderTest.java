@@ -40,11 +40,18 @@ public class HyperGraphPathfinderTest {
         assertEquals(edge2, path.getPathHyperEdges().get(1));
     }
     
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void throwOnDisconnectedGraph() {
         HyperGraphNode<Integer, Integer, Integer> node1 = new HyperGraphNode<>(1, 10);
         HyperGraphNode<Integer, Integer, Integer> node2 = new HyperGraphNode<>(2, 20);
         
-        HyperGraphPathfinder.find(node1, node2, weightFunction);
+        HyperGraphPath<Integer, Integer, Integer> path = 
+                HyperGraphPathfinder.find(node1, 
+                                          node2, 
+                                          weightFunction);
+        
+        assertEquals(Integer.valueOf(0), path.getWeight());
+        assertTrue(path.getPathHyperNodes().isEmpty());
+        assertTrue(path.getPathHyperEdges().isEmpty());
     }
 }

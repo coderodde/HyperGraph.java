@@ -21,6 +21,12 @@ public final class HyperGraphPath<I, J, W> {
     private final List<HyperGraphNode<I, J, W>> nodes;
     private final List<HyperGraphEdge<I, J, W>> edges;
     
+    public HyperGraphPath(WeightFunction<W> weights) {
+        this.weight = weights.zero();
+        this.nodes = Collections.emptyList();
+        this.edges = Collections.emptyList();
+    }
+    
     public HyperGraphPath(List<HyperGraphNode<I, J, W>> nodes,
                           List<HyperGraphEdge<I, J, W>> edges,
                           WeightFunction<W> weightFunction) {
@@ -127,7 +133,7 @@ public final class HyperGraphPath<I, J, W> {
         }
         
         if (!edges.get(edges.size() - 1)
-                .containsNode(nodes.get(nodes.size() - 1))) {
+                .containsNode(nodes.getLast())) {
             throw new IllegalArgumentException("Invalid hyper graph path");
         }
     }

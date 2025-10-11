@@ -6,14 +6,16 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * This class defines a node in a hypergraph.
+ * This class defines a node in a hypergraph. The type argument {@code I} is the
+ * identity type of a hyperedge. Two distinct hypernodes must not share the same
+ * ID.
  * 
- * @param <I> the type of the identity object.
- * @param <J> the type of the edges identity object.
- * @param <W> the type of the weights.
+ * @param <I> the type of the hypernode identity object.
+ * @param <J> the type of the hyperedge identity object.
+ * @param <W> the type of the hypernode weight.
  * 
  * @author Rodion "rodde" Efremov
- * @version 1.0.0 (Sep 24, 2025)
+ * @version 1.1.0 (Oct 6, 2025)
  * @since 1.0.0 (Sep 24, 2025)
  */
 public final class HyperGraphNode<I, J, W> {

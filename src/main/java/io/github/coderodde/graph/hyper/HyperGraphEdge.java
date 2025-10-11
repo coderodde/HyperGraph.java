@@ -6,14 +6,16 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * This class defines a hyperedge in a hypergraph.
+ * This class defines a hyperedge in a hypergraph. The type argument {@code J} 
+ * is used for specifying the "identity" of a hyperedge. Two distinct hyperedges
+ * must not share the same ID.
  * 
  * @param <I> the type of the node identity object.
  * @param <J> the type of the edge identity object.
  * @param <W> the type of the weights.
  * 
  * @author Rodion "rodde" Efremov
- * @version 1.0.0 (Sep 24, 2025)
+ * @version 1.1.0 (Oct 6, 2025)
  * @since 1.0.0 (Sep 24, 2025)
  */
 public final class HyperGraphEdge<I, J, W> {

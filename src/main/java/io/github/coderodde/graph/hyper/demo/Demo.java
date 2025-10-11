@@ -3,7 +3,7 @@ package io.github.coderodde.graph.hyper.demo;
 import io.github.coderodde.graph.hyper.HyperGraphEdge;
 import io.github.coderodde.graph.hyper.HyperGraphNode;
 import io.github.coderodde.graph.hyper.HyperGraphPath;
-import io.github.coderodde.graph.hyper.HyperGraphPathfinder;
+import io.github.coderodde.graph.hyper.HyperGraphPathFinder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -45,15 +45,46 @@ public final class Demo {
         
         ta = System.currentTimeMillis();
         
-        HyperGraphPath<Integer, Integer, Integer> path =
-                HyperGraphPathfinder.find(source, 
+        HyperGraphPath<Integer, Integer, Integer> path1 =
+                HyperGraphPathFinder.find(source, 
                                           target,
                                           new IntegerWeightFunction());
         tb = System.currentTimeMillis();
         
-        printPath(path);
+        printPath(path1);
         
-        System.out.println("Duration: " + (tb - ta) + " milliseconds.");
+        System.out.println("Dijkstra duration: " 
+                + (tb - ta) 
+                + " milliseconds.");
+        
+        ta = System.currentTimeMillis();
+        
+        HyperGraphPath<Integer, Integer, Integer> path2 = 
+                HyperGraphPathFinder.biFind(source,
+                                            target, 
+                                            new IntegerWeightFunction());
+        
+        System.out.println(path2);
+        
+        tb = System.currentTimeMillis();
+        
+        printPath(path2);
+        
+        System.out.println("Bidirectional Dijkstra duration: " 
+                + (tb - ta) 
+                + " milliseconds.");
+        
+        System.out.println("Paths are equal: " + pathsEqual(path1, path2));
+    }
+    
+    private static <I, J, W> boolean pathsEqual(HyperGraphPath<I, J, W> path1,
+                                                HyperGraphPath<I, J, W> path2) {
+        if (!path1.getWeight().equals(path2.getWeight())) {
+            return false;
+        }
+        
+        return path1.getPathHyperNodes().equals(path2.getPathHyperNodes()) &&
+               path1.getPathHyperEdges().equals(path2.getPathHyperEdges());
     }
     
     private static void printPath(HyperGraphPath<Integer, 
